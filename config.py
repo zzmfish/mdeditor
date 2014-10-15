@@ -1,6 +1,6 @@
 
-md_dir = '/home/zhouzm/Nutstore/zzmfish.github.io/markdown'
-html_dir = '/home/zhouzm/Nutstore/zzmfish.github.io'
+md_dir = '.'
+html_dir = '.'
 port = 8889
 
 if __name__ == '__main__':

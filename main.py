@@ -19,7 +19,11 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         check_ip(self.request)
         files = os.listdir(config.md_dir)
-        self.render('main.html', files=files)
+        md_files = []
+        for fn in files:
+            if fn.endswith('.md') or fn.endswith('.mkd') or fn.endswith('.markdown'):
+                md_files.append(fn)
+        self.render('main.html', files=md_files)
 
 class GetFileHandler(tornado.web.RequestHandler):
     def get(self):
@@ -32,11 +36,10 @@ class GetFileHandler(tornado.web.RequestHandler):
        
 class SaveFileHandler(tornado.web.RequestHandler):
     def post(self):
-        global MD_DIR
         check_ip(self.request)
         text = self.get_body_argument('text')
         f = self.get_body_argument('f')
-        f = os.path.join(MD_DIR, f)
+        f = os.path.join(config.md_dir, f)
         open(f, 'w').write(text.encode('utf-8'))
         self.write('OK')
  
