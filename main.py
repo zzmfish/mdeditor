@@ -66,6 +66,6 @@ application = tornado.web.Application([
     (r"/js/.*", ResourceHandler),
     (r"/lib/.*", ResourceHandler),
 ])
-application.listen(8889)
+application.listen(config.port)
 tornado.ioloop.IOLoop.instance().start()
 

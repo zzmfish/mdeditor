@@ -1,6 +1,7 @@
 
 MD_DIR=$(shell python config.py md_dir)
 HTML_DIR=$(shell python config.py html_dir)
+
 MKD_FILES=$(shell ls $(MD_DIR)/*.md)
 HTML_FILES=$(foreach path, $(MKD_FILES:.md=.html), $(HTML_DIR)/$(shell basename $(path)))
 
