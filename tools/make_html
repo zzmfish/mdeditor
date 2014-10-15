@@ -1,0 +1,7 @@
+#!/usr/bin/python
+import sys
+import make_html
+
+if __name__ == '__main__':
+    src = open(sys.argv[1], 'r').read().decode('utf-8')
+    print make_html.make_html(src, 'style.css')

@@ -1,0 +1,11 @@
+#!/usr/bin/python
+#encoding=utf-8
+import os
+import re
+print '# 首页'
+files = os.listdir('.')
+files.sort()
+for f in files:
+    if f[-5:] == '.html' and f != 'index.html':
+        title = f[:-5]
+        print '* [%s](%s)' % (title, f)
