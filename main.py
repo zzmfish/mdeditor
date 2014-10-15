@@ -3,10 +3,13 @@
 import base64
 import os
 import os.path
-import tornado.ioloop
-import tornado.web
 import tools.make_html
 import config
+
+import sys
+sys.path.append('./external/tornado')
+import tornado.ioloop
+import tornado.web
 
 def check_ip(request):
     if request.remote_ip != '127.0.0.1':
