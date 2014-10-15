@@ -1,6 +1,9 @@
 #encoding=utf-8
-import markdown
 import re
+import sys
+
+sys.path.append('./external/python-markdown')
+import markdown
 
 def make_html(src, css):
     style = css.endswith('.css') and '<link rel="stylesheet" href="%s" />' % css \

@@ -1,3 +1,6 @@
 [submodule "external/tornado"]
 	path = external/tornado
 	url = https://github.com/tornadoweb/tornado.git
+[submodule "external/python-markdown"]
+	path = external/python-markdown
+	url = https://github.com/waylan/Python-Markdown.git
