@@ -135,4 +135,4 @@ table, tr, td, th { border: 1px solid #CCCCCC }
 h4, h5, h6 { margin: 0px }
 th, td { padding: 3px }
 th { background-color: #EEEEEE }
-textarea { font-size:14px; font-family: Consolas, Monaco, Andale Mono, monospace; }
+pre, code { font-family:  "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace; }
