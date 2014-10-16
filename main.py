@@ -7,7 +7,7 @@ import tools.make_html
 import config
 
 import sys
-sys.path.append('./external/tornado')
+sys.path.insert(0, './external/tornado')
 import tornado.ioloop
 import tornado.web
 
@@ -23,6 +23,7 @@ class MainHandler(tornado.web.RequestHandler):
         for fn in files:
             if fn.endswith('.md') or fn.endswith('.mkd') or fn.endswith('.markdown'):
                 md_files.append(fn)
+        md_files.sort()
         self.render('main.html', files=md_files)
 
 class GetFileHandler(tornado.web.RequestHandler):
