@@ -136,3 +136,4 @@ h4, h5, h6 { margin: 0px }
 th, td { padding: 3px }
 th { background-color: #EEEEEE }
 pre, code { font-family:  "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace; }
+.codehilite * { background:none; border-radius: 0px; }

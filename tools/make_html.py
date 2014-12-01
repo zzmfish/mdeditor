@@ -15,6 +15,7 @@ def make_html(src, css):
                 {
                     'linenums': False,
                     'noclasses': True,
+                    'pygments_style': 'native',
                 }
             })
     title = ''
