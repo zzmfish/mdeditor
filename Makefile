@@ -14,6 +14,7 @@ index:
 	./tools/make_index > $(HTML_DIR)/index.md
 	./tools/make_html $(HTML_DIR)/index.md > $(HTML_DIR)/index.html
 	rm $(HTML_DIR)/index.md
+	cp style.css $(HTML_DIR)
 
 clean:
 	rm -f $(HTML_FILES) $(HTML_DIR)/index.html
