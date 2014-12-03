@@ -2,14 +2,14 @@
 import re
 import sys
 
-sys.path.append('./external/python-markdown')
+sys.path.insert(0, './external/python-markdown')
 import markdown
 
 def make_html(src, css):
     style = css.endswith('.css') and '<link rel="stylesheet" href="%s" />' % css \
             or '<style>%s</style>' % css
     converter = markdown.Markdown(
-            extensions=['tables', 'fenced_code', 'toc', 'codehilite'],
+            extensions=['tables', 'fenced_code', 'toc', 'codehilite', 'tools.code2img'],
             extension_configs={
                 'codehilite':
                 {
