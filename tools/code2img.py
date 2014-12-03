@@ -20,7 +20,6 @@ class Code2ImgPreprocessor(markdown.preprocessors.Preprocessor):
         
     def run(self, lines):
         text = '\n'.join(lines)
-        print text
         regx = re.compile(r'```(uml)\b(.*?)```', re.MULTILINE | re.DOTALL)
         while True:
             match = regx.search(text)
