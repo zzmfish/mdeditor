@@ -2,8 +2,9 @@
 <head>
 <title>笔记编辑</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
-<script src="/js/slidebar.js"></script>
 <script src="/lib/ace/ace.js"></script>
+<script src="/js/slidebar.js"></script>
+<script src="/js/editor.js"></script>
 <script src="/lib/ace/mode-markdown.js" type="text/javascript" charset="utf-8"></script>
 <script>
 var gIsRendering = false;
@@ -18,7 +19,7 @@ function debug(msg)
 function NeedSaveFile()
 {
     return ! document.getElementById('SaveButton').hasAttribute('disabled')
-            && editor.getValue();
+            && Editor.getValue();
 }
 
 function ConfirmUnsavedFile()
@@ -38,8 +39,8 @@ function EditFile(fileName)
     req.onreadystatechange = function() {
         if (req.readyState == 4 && req.status == 200) {
             //得到文件内容，并设置到编辑器
-            editor.setValue(req.responseText, -1);
-            editor.focus();
+            Editor.setValue(req.responseText, -1);
+            Editor.focus();
             document.getElementById('EditorContainer').style.display = '';
             document.getElementById('SaveButton').setAttribute('disabled', '');
             gFileName = fileName;
@@ -56,7 +57,7 @@ function SaveFile()
     if (!gFileName)
         return;
     //发起http请求：保存文件
-    var req_content = 'text=' + encodeURIComponent(editor.getValue())
+    var req_content = 'text=' + encodeURIComponent(Editor.getValue())
             + '&f=' + encodeURIComponent(gFileName);
     var req = new XMLHttpRequest();
     req.open('POST', '/SaveFile', false);
@@ -86,7 +87,7 @@ function Render()
     gIsRendering = true;
 
     //发起http请求：把markdown渲染成html
-    var req_content = 'text=' + encodeURIComponent(editor.getValue());
+    var req_content = 'text=' + encodeURIComponent(Editor.getValue());
     var req = new XMLHttpRequest();
     req.open('POST', '/Render', true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -207,23 +208,7 @@ function OnContentChange()
 </table>
 
 <script>
-//初始化编辑器
-var editor = ace.edit("Editor");
-var MarkdownMode = require("ace/mode/markdown").Mode;
-editor.setTheme("ace/theme/kuroir");
-editor.renderer.setOption('showLineNumbers', false);
-editor.renderer.setOption('showGutter', false);
-editor.renderer.setOption('showPrintMargin', false);
-editor.getSession().setMode(new MarkdownMode());
-editor.getSession().setUseWrapMode(true);
-editor.on("change", OnContentChange);
-
-function changeTheme()
-{
-    var themeName = document.getElementById('ThemeSelect').value;
-    editor.setTheme("ace/theme/" + themeName);
-}
-
+Editor.init();
 if (location.hash)
     EditFile(location.hash.substr(1));
 InitSlideBar('SlideBar', 'SlideTrigger');
