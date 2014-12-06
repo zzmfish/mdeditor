@@ -11,7 +11,7 @@ var Toolbar = {
                 EditFile(ui.item.value);
             }
         }).click(function() {
-            $(this).autocomplete('search', '');
+            $(this).autocomplete('search', $(this).val());
         }).keydown(function(e){
             var key = e.which;
             if (key == 13) {
