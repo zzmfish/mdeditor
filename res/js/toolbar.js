@@ -1,6 +1,8 @@
 
 var Toolbar = {
+    files : [],
     init : function(files) {
+        this.files = files;
         $("#FileNameInput").autocomplete({
             source: files,
             minLength: 0,
@@ -13,8 +15,18 @@ var Toolbar = {
         }).keydown(function(e){
             var key = e.which;
             if (key == 13) {
-                EditFile($(this).val());
+                var value = $(this).val();
+                if (Toolbar.files.indexOf(value) == -1) {
+                    Toolbar.addFile(value);
+                }
+                EditFile(value);
             }
         });
-    }
+    },
+    addFile : function(name)
+    {
+        this.files.push(name);
+        this.files.sort();
+        this.init(this.files);
+    },
 };
