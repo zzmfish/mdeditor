@@ -22,8 +22,8 @@ class MainHandler(tornado.web.RequestHandler):
         files = os.listdir(config.md_dir)
         md_files = []
         for fn in files:
-            if fn.endswith('.md') or fn.endswith('.mkd') or fn.endswith('.markdown'):
-                md_files.append(fn)
+            if fn.endswith('.md'):
+                md_files.append(fn[ : fn.rfind('.')])
         md_files.sort()
         self.render('main.html', files=json.dumps(md_files))
 
@@ -33,7 +33,12 @@ class GetFileHandler(tornado.web.RequestHandler):
         f = self.get_argument('f')
         text = ''
         if f:
-            text = open(os.path.join(config.md_dir, f), 'r').read()
+            f += '.md'
+            try:
+                text = open(os.path.join(config.md_dir, f), 'r').read()
+            except IOError:
+                pass
+        print 'file %s is loaded, size is %d' % (f, len(text))
         self.write(text)
        
 class SaveFileHandler(tornado.web.RequestHandler):
@@ -41,8 +46,13 @@ class SaveFileHandler(tornado.web.RequestHandler):
         check_ip(self.request)
         text = self.get_body_argument('text')
         f = self.get_body_argument('f')
+        if not f:
+            return
+        f += '.md'
         f = os.path.join(config.md_dir, f)
-        open(f, 'w').write(text.encode('utf-8'))
+        data = text.encode('utf-8')
+        open(f, 'w').write(data)
+        print 'file %s is saved, size is %d' % (f, len(data))
         self.write('OK')
  
 class RenderHandler(tornado.web.RequestHandler):
