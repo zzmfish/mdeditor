@@ -1223,3 +1223,9 @@ body .ui-tooltip {
 	filter: Alpha(Opacity=20); /* support: IE8 */
 	border-radius: 5px;
 }
+
+/* 自定义 */
+.ui-widget {
+	font-family: "";
+	font-size: 14px;
+}
