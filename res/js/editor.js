@@ -27,6 +27,7 @@ var Editor = {
     {
         this.editor.setValue(value);
         this.editor.clearSelection();
+        this.editor.gotoLine(0);
     },
 
     focus : function()
