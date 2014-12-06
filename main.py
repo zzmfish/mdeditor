@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #encoding=utf-8
 import base64
+import json
 import os
 import os.path
 import tools.make_html
@@ -24,7 +25,7 @@ class MainHandler(tornado.web.RequestHandler):
             if fn.endswith('.md') or fn.endswith('.mkd') or fn.endswith('.markdown'):
                 md_files.append(fn)
         md_files.sort()
-        self.render('main.html', files=md_files)
+        self.render('main.html', files=json.dumps(md_files))
 
 class GetFileHandler(tornado.web.RequestHandler):
     def get(self):

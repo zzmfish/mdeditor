@@ -2,9 +2,12 @@
 <head>
 <title>笔记编辑</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/lib/jquery-ui/jquery-ui.css" />
+<script src="/lib/jquery.js"></script>
+<script src="/lib/jquery-ui/jquery-ui.js"></script>
 <script src="/lib/ace/ace.js"></script>
-<script src="/js/slidebar.js"></script>
 <script src="/js/editor.js"></script>
+<script src="/js/toolbar.js"></script>
 <script src="/lib/ace/mode-markdown.js" type="text/javascript" charset="utf-8"></script>
 <script>
 var gIsRendering = false;
@@ -139,27 +142,14 @@ function OnContentChange()
 </head>
 <body style="padding:0px;margin:0px;">
 
-<div id="SlideBar" style="position:absolute; width:300px; top:0px; left: -300px; z-index:9999;">
-    <ul>
-        {% for f in files %}
-        <li><a href="javascript:EditFile('{{ url_escape(f) }}')">{{ f }}</a></li>
-        {% end %}
-    </ul>
-</div>
-
 <table style="width:100%; height:100%;" id="EditorContainer" border="0" cellspacing="0">
     <tr>
         <td style="width:50%">
             <table border="0" cellspacing="0" style="width:100%; height:100%">
                 <tr>
-                    <td>
-                        <div id="Editor" style="position:relative; width:100%; height:100%; font-size:14px;"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height:20px;">
-                        <div id="SlideTrigger" style="float:left;">菜单</div>
+                    <td style="height:20px; text-align:right;">
                         <span id="Status"></span>
+                        <input id="FileNameInput" type="text" />
                         <!--隐藏编辑器主题选框
                         <select onchange='javascript:changeTheme()' id="ThemeSelect">
                             <option value="ambiance">ambiance</option>
@@ -196,7 +186,12 @@ function OnContentChange()
                             <option value="xcode">xcode</option>
                         </select>
                         -->
-                        <button id="SaveButton" onclick="SaveFile()" disabled style="float:right">保存</button>
+                        <button id="SaveButton" onclick="SaveFile()" disabled>保存</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="Editor" style="position:relative; width:100%; height:100%; font-size:14px;"></div>
                     </td>
                 </tr>
             </table>
@@ -209,9 +204,10 @@ function OnContentChange()
 
 <script>
 Editor.init();
+var files = {% raw files %};
+Toolbar.init(files);
 if (location.hash)
     EditFile(location.hash.substr(1));
-InitSlideBar('SlideBar', 'SlideTrigger');
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())
