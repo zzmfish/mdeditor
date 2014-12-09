@@ -3,6 +3,9 @@ var Toolbar = {
     files : [],
     init : function(files) {
         this.files = files;
+        this.files.sort(function (a, b) {
+            return a.toLowerCase().localeCompare(b.toLowerCase());
+         });;
         $("#FileNameInput").autocomplete({
             source: files,
             minLength: 0,
@@ -26,7 +29,6 @@ var Toolbar = {
     addFile : function(name)
     {
         this.files.push(name);
-        this.files.sort();
         this.init(this.files);
     },
 };
