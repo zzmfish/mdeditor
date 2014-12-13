@@ -1,5 +1,4 @@
-__author__ = 'zhouzhiming'
-
+# encoding=utf-8
 
 import sys
 import os
@@ -19,12 +18,14 @@ class GoogleTestCase(unittest.TestCase):
     def init_server(self):
         pid = os.fork()
         if pid == 0:
-            src_dir = os.path.join(os.path.dirname(__file__), '..')
+            test_dir = os.path.dirname(__file__)
+            src_dir = os.path.join(test_dir, '..')
             os.chdir(src_dir)
             python_path = os.popen('which python').read().strip('\r\n\r ')
             python_srcs = []
             python_srcs.append('import config')
             python_srcs.append('config.port=%d' % TEST_PORT)
+            python_srcs.append('config.md_dir="%s"' % os.path.join(test_dir, 'md_dir'))
             python_srcs.append('import main')
             python_srcs.append('main.main()')
             os.execv(python_path, [python_path, '-c', ';'.join(python_srcs)])
@@ -50,6 +51,15 @@ class GoogleTestCase(unittest.TestCase):
         self.delay()
 
         self.browser.find_element_by_id('Editor')
+
+        # 点击文件名输入框
+        file_input = self.browser.find_element_by_id('FileNameInput')
+        file_input.click()
+        self.delay()
+        self.browser.find_element_by_class_name('ui-autocomplete')
+        self.browser.find_element_by_xpath('//li[@class="ui-menu-item" and text() = "test1"]')
+
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
