@@ -69,18 +69,22 @@ class ResourceHandler(tornado.web.RequestHandler):
         path = self.request.uri.strip('/')
         content = open(os.path.join('./res', path), 'r').read()
         self.write(content)
-        
-from tornado.log import enable_pretty_logging
-enable_pretty_logging()
-application = tornado.web.Application([
-    (r"/", MainHandler),
-    (r"/GetFile", GetFileHandler),
-    (r"/SaveFile", SaveFileHandler),
-    (r"/Render", RenderHandler),
-    (r"/css/.*", ResourceHandler),
-    (r"/js/.*", ResourceHandler),
-    (r"/lib/.*", ResourceHandler),
-])
-application.listen(config.port)
-tornado.ioloop.IOLoop.instance().start()
+
+def main():
+    from tornado.log import enable_pretty_logging
+    enable_pretty_logging()
+    application = tornado.web.Application([
+        (r"/", MainHandler),
+        (r"/GetFile", GetFileHandler),
+        (r"/SaveFile", SaveFileHandler),
+        (r"/Render", RenderHandler),
+        (r"/css/.*", ResourceHandler),
+        (r"/js/.*", ResourceHandler),
+        (r"/lib/.*", ResourceHandler),
+    ])
+    application.listen(config.port)
+    tornado.ioloop.IOLoop.instance().start()
+
+if __name__ == '__main__':
+    main()
 
