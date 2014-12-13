@@ -9,17 +9,6 @@ import utils
 import tools.make_html
 
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        utils.check_ip(self.request)
-        files = os.listdir(config.md_dir)
-        md_files = []
-        for fn in files:
-            if fn.endswith('.md'):
-                md_files.append(fn[ : fn.rfind('.')])
-        md_files.sort()
-        self.render('main.html', files=json.dumps(md_files))
-
 
 class RenderHandler(tornado.web.RequestHandler):
     def post(self):
@@ -38,3 +27,4 @@ class ResourceHandler(tornado.web.RequestHandler):
 
 
 from file_handler import GetFileHandler, SaveFileHandler
+from main_handler import MainHandler
