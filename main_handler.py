@@ -1,22 +1,16 @@
 __author__ = 'zhouzhiming'
 
-import os
 import json
 import tornado.web
 
 import utils
-import config
+import file_manager
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         utils.check_ip(self.request)
-        files = os.listdir(config.md_dir)
-        md_files = []
-        for fn in files:
-            if fn.endswith('.md'):
-                md_files.append(fn[ : fn.rfind('.')])
-        md_files.sort()
-        self.render('main.html', files=json.dumps(md_files))
+        file_names = file_manager.file_manager.get_file_names()
+        self.render('main.html', files=json.dumps(file_names))
 
 
