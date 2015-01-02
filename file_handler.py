@@ -5,6 +5,7 @@ import tornado.web
 
 import config
 import utils
+import file_manager
 
 class GetFileHandler(tornado.web.RequestHandler):
     def get(self):
@@ -24,13 +25,7 @@ class SaveFileHandler(tornado.web.RequestHandler):
     def post(self):
         utils.check_ip(self.request)
         text = self.get_body_argument('text')
-        f = self.get_body_argument('f')
-        if not f:
-            return
-        f += '.md'
-        f = os.path.join(config.md_dir, f)
-        data = text.encode('utf-8')
-        open(f, 'w').write(data)
-        print 'file %s is saved, size is %d' % (f, len(data))
+        name = self.get_body_argument('f')
+        file_manager.file_manager.save_file(name, text)
         self.write('OK')
 

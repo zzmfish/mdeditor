@@ -24,4 +24,14 @@ class FileManager:
 
         return out_names
 
+    def save_file(self, name, data):
+        if not name:
+            return False
+        path = os.path.join(config.md_dir, '%s.md' % name)
+        if isinstance(data, unicode):
+            data = data.encode('utf-8')
+        print 'file %s is saved, size is %d' % (path, len(data))
+        open(path, 'w').write(data)
+        return True
+
 file_manager = FileManager()
