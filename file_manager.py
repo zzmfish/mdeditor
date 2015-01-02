@@ -28,6 +28,7 @@ class FileManager:
         if not name:
             return False
         path = os.path.join(config.md_dir, '%s.md' % name)
+        os.makedirs(os.path.dirname(path))
         if isinstance(data, unicode):
             data = data.encode('utf-8')
         print 'file %s is saved, size is %d' % (path, len(data))
