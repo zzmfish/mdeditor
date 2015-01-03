@@ -1,6 +1,7 @@
 # encoding=utf-8
 import os
 import config
+import tornado.log
 
 
 class FileManager:
@@ -36,7 +37,7 @@ class FileManager:
             os.makedirs(file_dir)
         if isinstance(data, unicode):
             data = data.encode('utf-8')
-        print 'file %s is saved, size is %d' % (file_path, len(data))
+        tornado.log.app_log.info('file %s is saved, size is %d' % (file_path, len(data)))
         open(file_path, 'w').write(data)
         return True
 
@@ -47,7 +48,7 @@ class FileManager:
         if not os.path.exists(file_path):
             return False
         data = open(file_path, 'r').read()
-        print 'file %s is loaded, size is %d' % (file_path, len(data))
+        tornado.log.app_log.info('file %s is loaded, size is %d' % (file_path, len(data)))
         return data
 
 file_manager = FileManager()
