@@ -24,10 +24,13 @@ class FileManager:
 
         return out_names
 
+    def __get_file_path(self, name):
+        return os.path.join(config.md_dir, '%s.md' % name)
+
     def save_file(self, name, data):
         if not name:
             return False
-        file_path = os.path.join(config.md_dir, '%s.md' % name)
+        file_path = self.__get_file_path(name)
         file_dir = os.path.dirname(file_path)
         if not os.path.exists(file_dir):
             os.makedirs(file_dir)
@@ -36,5 +39,15 @@ class FileManager:
         print 'file %s is saved, size is %d' % (file_path, len(data))
         open(file_path, 'w').write(data)
         return True
+
+    def load_file(self, name):
+        if not name:
+            return False
+        file_path = self.__get_file_path(name)
+        if not os.path.exists(file_path):
+            return False
+        data = open(file_path, 'r').read()
+        print 'file %s is loaded, size is %d' % (file_path, len(data))
+        return data
 
 file_manager = FileManager()
