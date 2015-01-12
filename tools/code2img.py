@@ -39,10 +39,19 @@ class Code2ImgPreprocessor(markdown.preprocessors.Preprocessor):
         pipe.stdin.write(code)
         pipe.stdin.close()
         return pipe.stdout.read()
+
+    def dot(self, code):
+        pipe = subprocess.Popen(['dot', '-Tpng'], \
+                stdin = subprocess.PIPE, stdout = subprocess.PIPE)
+        if type(code) is unicode:
+            code = code.encode('utf-8')
+        pipe.stdin.write(code)
+        pipe.stdin.close()
+        return pipe.stdout.read()
         
     def run(self, lines):
         text = '\n'.join(lines)
-        regx = re.compile(r'```(uml)\b(.*?)```', re.MULTILINE | re.DOTALL)
+        regx = re.compile(r'```(uml|dot)\b(.*?)```', re.MULTILINE | re.DOTALL)
         while True:
             match = regx.search(text)
             if not match:
@@ -54,6 +63,8 @@ class Code2ImgPreprocessor(markdown.preprocessors.Preprocessor):
                 img_data = ''
                 if img_type == 'uml':
                     img_data = self.uml(img_code)
+                elif img_type == 'dot':
+                    img_data = self.dot(img_code)
                 if img_data:
                     self.data_cache.save_data(match.group(0), img_data)
             text = text.replace(match.group(0), '<img src="data:image/png;base64,%s" />' % base64.b64encode(img_data))
