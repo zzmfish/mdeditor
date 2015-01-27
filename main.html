@@ -188,11 +188,9 @@ function OnContentChange()
 </table>
 
 <script>
-Editor.init();
 var files = {% raw files %};
+Editor.init();
 Toolbar.init(files);
-if (location.hash)
-    Editor.editFile(location.hash.substr(1));
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())

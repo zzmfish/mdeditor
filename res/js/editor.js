@@ -16,6 +16,8 @@ var Editor = {
         editor.getSession().setMode(new MarkdownMode());
 
         this.editor = editor;
+        if (window.location.hash)
+            Editor.editFile(unescape(window.location.hash.substr(1)));
     },
 
     getValue : function()
@@ -68,7 +70,7 @@ var Editor = {
     _updateTitle : function(fileName)
     {
         gFileName = fileName;
-        location.hash = fileName;
+        location.hash = escape(fileName);
         document.title = 'MDEditor [' + fileName + ']';
     },
 
