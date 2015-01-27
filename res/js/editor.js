@@ -55,16 +55,22 @@ var Editor = {
                 //得到文件内容，并设置到编辑器
                 Editor.setValue(req.responseText, -1);
                 Editor.focus();
+                Editor._updateTitle(fileName);
                 document.getElementById('EditorContainer').style.display = '';
                 document.getElementById('SaveButton').setAttribute('disabled', '');
-                gFileName = fileName;
-                location.hash = fileName
                 gNeedRendering = true;
                 Render();
             }
         }
         req.send();
-    }
+    },
+
+    _updateTitle : function(fileName)
+    {
+        gFileName = fileName;
+        location.hash = fileName;
+        document.title = 'MDEditor [' + fileName + ']';
+    },
 
 
 
