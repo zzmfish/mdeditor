@@ -42,4 +42,30 @@ var Editor = {
     },
 
 
+    editFile : function(fileName)
+    {
+        debug('EditFile(' + fileName + ')');
+        ConfirmUnsavedFile();
+
+        //发起http请求：获取markdown文件内容
+        var req = new XMLHttpRequest();
+        req.open('GET', '/GetFile?f=' + encodeURIComponent(fileName), true);
+        req.onreadystatechange = function() {
+            if (req.readyState == 4 && req.status == 200) {
+                //得到文件内容，并设置到编辑器
+                Editor.setValue(req.responseText, -1);
+                Editor.focus();
+                document.getElementById('EditorContainer').style.display = '';
+                document.getElementById('SaveButton').setAttribute('disabled', '');
+                gFileName = fileName;
+                location.hash = fileName
+                gNeedRendering = true;
+                Render();
+            }
+        }
+        req.send();
+    }
+
+
+
 };

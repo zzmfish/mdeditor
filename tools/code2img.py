@@ -51,7 +51,7 @@ class Code2ImgPreprocessor(markdown.preprocessors.Preprocessor):
         
     def run(self, lines):
         text = '\n'.join(lines)
-        regx = re.compile(r'```(uml|dot)\b(.*?)```', re.MULTILINE | re.DOTALL)
+        regx = re.compile(r'```[\r\n]*(uml|dot)\b(.*?)```', re.MULTILINE | re.DOTALL)
         while True:
             match = regx.search(text)
             if not match:

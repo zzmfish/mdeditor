@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>笔记编辑</title>
+<title>笔记</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 <link rel="stylesheet" type="text/css" href="/lib/jquery-ui/jquery-ui.css" />
 <script src="/lib/jquery.js"></script>
@@ -29,30 +29,6 @@ function ConfirmUnsavedFile()
 {
     if (NeedSaveFile() && confirm("是否保存文件？"))
         SaveFile();
-}
-
-function EditFile(fileName)
-{
-    debug('EditFile(' + fileName + ')');
-    ConfirmUnsavedFile();
-
-    //发起http请求：获取markdown文件内容
-    var req = new XMLHttpRequest();
-    req.open('GET', '/GetFile?f=' + encodeURIComponent(fileName), true);
-    req.onreadystatechange = function() {
-        if (req.readyState == 4 && req.status == 200) {
-            //得到文件内容，并设置到编辑器
-            Editor.setValue(req.responseText, -1);
-            Editor.focus();
-            document.getElementById('EditorContainer').style.display = '';
-            document.getElementById('SaveButton').setAttribute('disabled', '');
-            gFileName = fileName;
-            location.hash = fileName
-            gNeedRendering = true;
-            Render();
-        }
-    }
-    req.send();
 }
 
 function SaveFile()
@@ -143,6 +119,7 @@ function OnContentChange()
 <style>
 .ui-autocomplete {
     max-height: 600px;
+    overflow-x: hidden;
     overflow-y: scroll;
 }
 </style>
@@ -157,7 +134,7 @@ function OnContentChange()
                 <tr>
                     <td style="height:20px; text-align:right;">
                         <span id="Status"></span>
-                        <input id="FileNameInput" type="text" style="width: 250px;" />
+                        <input id="FileNameInput" type="text" style="width: 60%;" />
                         <!--隐藏编辑器主题选框
                         <select onchange='javascript:changeTheme()' id="ThemeSelect">
                             <option value="ambiance">ambiance</option>
@@ -215,7 +192,7 @@ Editor.init();
 var files = {% raw files %};
 Toolbar.init(files);
 if (location.hash)
-    EditFile(location.hash.substr(1));
+    Editor.editFile(location.hash.substr(1));
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())

@@ -11,7 +11,7 @@ var Toolbar = {
             minLength: 0,
             delay: 100,
             select: function(e, ui) {
-                EditFile(ui.item.value);
+                Editor.editFile(ui.item.value);
             }
         }).click(function() {
             $(this).autocomplete('search', $(this).val());
@@ -22,7 +22,7 @@ var Toolbar = {
                 if (Toolbar.files.indexOf(value) == -1) {
                     Toolbar.addFile(value);
                 }
-                EditFile(value);
+                Editor.editFile(value);
             }
         });
     },
