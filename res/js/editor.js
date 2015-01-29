@@ -71,7 +71,7 @@ var Editor = {
     {
         gFileName = fileName;
         location.hash = escape(fileName);
-        document.title = 'MDEditor [' + fileName + ']';
+        document.title = fileName + ' - MDEditor';
     },
 
 
