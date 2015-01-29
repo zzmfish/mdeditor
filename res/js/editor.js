@@ -1,5 +1,8 @@
 
 var Editor = {
+    fileName : null,
+    editor : null,
+
     init : function()
     {
         //初始化编辑器
@@ -69,11 +72,14 @@ var Editor = {
 
     _updateTitle : function(fileName)
     {
-        gFileName = fileName;
+        this.fileName = fileName;
         location.hash = escape(fileName);
         document.title = fileName + ' - MDEditor';
     },
 
-
+    GetFileName : function()
+    {
+        return this.fileName;
+    }
 
 };

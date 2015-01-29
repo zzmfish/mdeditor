@@ -11,7 +11,6 @@
 <script src="/lib/ace/mode-markdown.js" type="text/javascript" charset="utf-8"></script>
 <script>
 var gIsRendering = false;
-var gFileName = null;
 var gNeedRendering = false;
 
 function debug(msg)
@@ -33,11 +32,12 @@ function ConfirmUnsavedFile()
 
 function SaveFile()
 {
-    if (!gFileName)
+    var fileName = Editor.GetFileName();
+    if (!fileName)
         return;
     //发起http请求：保存文件
     var req_content = 'text=' + encodeURIComponent(Editor.getValue())
-            + '&f=' + encodeURIComponent(gFileName);
+            + '&f=' + encodeURIComponent(fileName);
     var req = new XMLHttpRequest();
     req.open('POST', '/SaveFile', false);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
