@@ -133,7 +133,6 @@ function OnContentChange()
             <table border="0" cellspacing="0" style="width:100%; height:100%">
                 <tr>
                     <td style="height:20px; text-align:right;">
-                        <span id="Status"></span>
                         <input id="FileNameInput" type="text" style="width: 60%;" />
                         <!--隐藏编辑器主题选框
                         <select onchange='javascript:changeTheme()' id="ThemeSelect">
@@ -186,6 +185,8 @@ function OnContentChange()
         </td>
     </tr>
 </table>
+
+<div id="Status" style="position:absolute;left:0px; bottom:0px;"></div>
 
 <script>
 var files = {% raw files %};
