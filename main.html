@@ -129,50 +129,52 @@ function OnContentChange()
 
 <table style="width:100%; height:100%;" id="EditorContainer" border="0" cellspacing="0">
     <tr>
-        <td style="width:50%">
+        <td style="height:20px" colspan="2">
+            文件: <input id="FileNameInput" type="text" style="width:300px;" />
+            <button id="SaveButton" onclick="SaveFile()" disabled>保存</button>&nbsp;
+            <input id="ShowSource" type="checkbox" checked="checked" />源码&nbsp;
+            主题:
+            <select onchange='javascript:Editor.changeTheme()' id="ThemeSelect" style="width:80px;">
+                <option value="ambiance">ambiance</option>
+                <option value="chaos">chaos</option>
+                <option value="chrome">chrome</option>
+                <option value="clouds">clouds</option>
+                <option value="clouds_midnight">clouds_midnight</option>
+                <option value="cobalt">cobalt</option>
+                <option value="crimson_editor">crimson_editor</option>
+                <option value="dawn">dawn</option>
+                <option value="dreamweaver">dreamweaver</option>
+                <option value="eclipse">eclipse</option>
+                <option value="github">github</option>
+                <option value="idle_fingers">idle_fingers</option>
+                <option value="katzenmilch">katzenmilch</option>
+                <option value="kr_theme">kr_theme</option>
+                <option value="kuroir">kuroir</option>
+                <option value="merbivore">merbivore</option>
+                <option value="merbivore_soft">merbivore_soft</option>
+                <option value="mono_industrial">mono_industrial</option>
+                <option value="monokai">monokai</option>
+                <option value="pastel_on_dark">pastel_on_dark</option>
+                <option value="solarized_dark">solarized_dark</option>
+                <option value="solarized_light">solarized_light</option>
+                <option value="terminal">terminal</option>
+                <option value="textmate">textmate</option>
+                <option value="tomorrow">tomorrow</option>
+                <option value="tomorrow_night">tomorrow_night</option>
+                <option value="tomorrow_night_blue">tomorrow_night_blue</option>
+                <option value="tomorrow_night_bright">tomorrow_night_bright</option>
+                <option value="tomorrow_night_eighties">tomorrow_night_eighties</option>
+                <option value="twilight">twilight</option>
+                <option value="vibrant_ink">vibrant_ink</option>
+                <option value="xcode">xcode</option>
+            </select>
+
+            <input id="ShowRenderer" type="checkbox" checked="checked" />渲染&nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td id="EditorTd" style="width:50%">
             <table border="0" cellspacing="0" style="width:100%; height:100%">
-                <tr>
-                    <td style="height:20px; text-align:right;">
-                        <input id="FileNameInput" type="text" style="width: 60%;" />
-                        <!--隐藏编辑器主题选框
-                        <select onchange='javascript:changeTheme()' id="ThemeSelect">
-                            <option value="ambiance">ambiance</option>
-                            <option value="chaos">chaos</option>
-                            <option value="chrome">chrome</option>
-                                    <option value="clouds">clouds</option>
-                            <option value="clouds_midnight">clouds_midnight</option>
-                            <option value="cobalt">cobalt</option>
-                            <option value="crimson_editor">crimson_editor</option>
-                            <option value="dawn">dawn</option>
-                            <option value="dreamweaver">dreamweaver</option>
-                            <option value="eclipse">eclipse</option>
-                            <option value="github">github</option>
-                            <option value="idle_fingers">idle_fingers</option>
-                            <option value="katzenmilch">katzenmilch</option>
-                            <option value="kr_theme">kr_theme</option>
-                            <option value="kuroir">kuroir</option>
-                            <option value="merbivore">merbivore</option>
-                            <option value="merbivore_soft">merbivore_soft</option>
-                            <option value="mono_industrial">mono_industrial</option>
-                                    <option value="monokai">monokai</option>
-                            <option value="pastel_on_dark">pastel_on_dark</option>
-                            <option value="solarized_dark">solarized_dark</option>
-                            <option value="solarized_light">solarized_light</option>
-                            <option value="terminal">terminal</option>
-                            <option value="textmate">textmate</option>
-                            <option value="tomorrow">tomorrow</option>
-                            <option value="tomorrow_night">tomorrow_night</option>
-                            <option value="tomorrow_night_blue">tomorrow_night_blue</option>
-                            <option value="tomorrow_night_bright">tomorrow_night_bright</option>
-                            <option value="tomorrow_night_eighties">tomorrow_night_eighties</option>
-                            <option value="twilight">twilight</option>
-                            <option value="vibrant_ink">vibrant_ink</option>
-                            <option value="xcode">xcode</option>
-                        </select>
-                        -->
-                        <button id="SaveButton" onclick="SaveFile()" disabled>保存</button>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         <div id="Editor" style="position:relative; width:100%; height:100%; font-size:14px;"></div>
@@ -180,7 +182,7 @@ function OnContentChange()
                 </tr>
             </table>
         </td>
-        <td style="width:50%">
+        <td id="RendererTd" style="width:50%">
             <iframe id="Renderer" style="width:100%; height:100%; border:0px;" border=0></iframe>
         </td>
     </tr>
