@@ -19,8 +19,6 @@ var Editor = {
         editor.getSession().setMode(new MarkdownMode());
 
         this.editor = editor;
-        if (window.location.hash)
-            Editor.editFile(unescape(window.location.hash.substr(1)));
     },
 
     getValue : function()
@@ -51,6 +49,7 @@ var Editor = {
     {
         debug('EditFile(' + fileName + ')');
         ConfirmUnsavedFile();
+        Editor._updateFileName(fileName);
 
         //发起http请求：获取markdown文件内容
         var req = new XMLHttpRequest();
@@ -60,7 +59,6 @@ var Editor = {
                 //得到文件内容，并设置到编辑器
                 Editor.setValue(req.responseText, -1);
                 Editor.focus();
-                Editor._updateTitle(fileName);
                 document.getElementById('EditorContainer').style.display = '';
                 document.getElementById('SaveButton').setAttribute('disabled', '');
                 gNeedRendering = true;
@@ -70,7 +68,7 @@ var Editor = {
         req.send();
     },
 
-    _updateTitle : function(fileName)
+    _updateFileName : function(fileName)
     {
         this.fileName = fileName;
         location.hash = escape(fileName);
