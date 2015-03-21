@@ -3,6 +3,7 @@ port = 8889
 md_dir = '.'
 html_dir = '.'
 plantuml_path = './plantuml.jar'
+fs_charset = 'utf-8'
 
 if __name__ == '__main__':
     import sys
