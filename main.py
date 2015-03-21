@@ -2,6 +2,7 @@
 #encoding=utf-8
 
 import sys
+import logging
 sys.path.insert(0, './external/tornado')
 import tornado.ioloop
 import tornado.web
@@ -23,6 +24,7 @@ def main():
         (r"/lib/.*", handler.ResourceHandler),
     ])
     application.listen(config.port)
+    logging.info('start at port %d' % config.port)
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == '__main__':

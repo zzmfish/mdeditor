@@ -2,20 +2,16 @@
 var Toolbar = {
     files : [],
     init : function(files) {
+        this.setFiles(files);
+
         //获取控件
         this.fileNameInput = $("#FileNameInput");
         this.showSourceInput = $('#ShowSource');
         this.showRendererInput = $('#ShowRenderer');
 
-        //获取文件列表
-        this.files = files;
-        this.files.sort(function (a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
-         });
-
         //输入框自动完成
         this.fileNameInput.autocomplete({
-            source: files,
+            source: Toolbar.files,
             minLength: 0,
             delay: 100,
             select: function(e, ui) {
@@ -60,8 +56,17 @@ var Toolbar = {
     },
     addFile : function(name)
     {
-        this.files.push(name);
-        this.init(this.files);
+        var files = this.files;
+        files.push(name);
+        this.setFiles(files);
+    },
+    setFiles : function(files)
+    {
+        //获取文件列表
+        this.files = files;
+        this.files.sort(function (a, b) {
+            return a.toLowerCase().localeCompare(b.toLowerCase());
+         });
     },
     _updateSourceAndRendererLayout : function()
     {
