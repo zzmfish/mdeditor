@@ -3,9 +3,14 @@ import re
 import sys
 
 sys.path.insert(0, './external/python-markdown')
+import config
 import markdown
 
+
 def make_html(src, css):
+    if type(src) is str:
+        src = src.decode(config.md_charset)
+
     style = css.endswith('.css') and '<link rel="stylesheet" href="%s" />' % css \
             or '<style>%s</style>' % css
     converter = markdown.Markdown(
@@ -22,7 +27,7 @@ def make_html(src, css):
     match = re.search(r'#.*', src)
     if match:
         title = match.group(0).strip('# ')
-    
+
     body = converter.convert(src)
     return '''<!DOCTYPE html>
 <html>

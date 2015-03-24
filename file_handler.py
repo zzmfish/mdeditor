@@ -8,6 +8,8 @@ class GetFileHandler(tornado.web.RequestHandler):
     def get(self):
         utils.check_ip(self.request)
         name = self.get_argument('f')
+        if name.startswith('/') or name.find('..') >= 0:
+            return
         text = file_manager.load_file(name) or ''
         self.write(text)
 

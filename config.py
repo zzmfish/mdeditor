@@ -4,6 +4,8 @@ md_dir = '.'
 html_dir = '.'
 plantuml_path = './plantuml.jar'
 fs_charset = 'utf-8'
+md_charset = 'utf-8'
+title = 'zhouzm的笔记'
 
 if __name__ == '__main__':
     import sys
