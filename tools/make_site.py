@@ -1,8 +1,18 @@
 # encoding=utf-8
 import os
-import os.path
+import sys
+
+cur_dir = os.path.dirname(__file__)
+top_dir = os.path.join(cur_dir, '..')
+top_dir = os.path.abspath(top_dir)
+os.chdir(top_dir)
+sys.path.append(top_dir)
+
 import config
 import make_html
+
+reload(sys)
+sys.setdefaultencoding(config.fs_charset)
 
 links = []
 for root, dirs, files in os.walk(config.md_dir, followlinks=False):
