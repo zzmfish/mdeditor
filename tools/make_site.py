@@ -1,6 +1,9 @@
 # encoding=utf-8
+import sys
 import os
 import os.path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import config
 import make_html
 
