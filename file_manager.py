@@ -26,8 +26,8 @@ class FileManager:
         return out_names
 
     def __get_file_path(self, name):
-        if type(name) is unicode:
-            name = name.encode(config.fs_charset)
+        #if type(name) is unicode:
+        #    name = name.encode(config.fs_charset)
         return os.path.join(config.md_dir, '%s.md' % name)
 
     def save_file(self, name, data):
