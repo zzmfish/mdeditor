@@ -26,7 +26,11 @@ for root, dirs, files in os.walk(config.md_dir, followlinks=False):
         if should_make_html:
             print '%s' % md_file
             print '  -> %s' % html_file
-            html = make_html.make_html(open(md_file, 'r').read(), 'style.css')
+
+            depth_count = root.count(os.path.sep) - config.md_dir.count(os.path.sep)
+            depth_str = os.path.sep.join(['..'] * depth_count)
+
+            html = make_html.make_html(open(md_file, 'r').read(), os.path.join(depth_str, 'style.css'))
             open(html_file, 'w').write(html)
 
         rel_path = html_file
