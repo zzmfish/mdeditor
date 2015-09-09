@@ -132,7 +132,9 @@ function OnContentChange()
         <td style="height:20px" colspan="2">
             文件: <input id="FileNameInput" type="text" style="width:300px;" />
             <button id="SaveButton" onclick="SaveFile()" disabled>保存</button>&nbsp;
+            <input id="ShowFileBrowser" type="checkbox" />浏览&nbsp;
             <input id="ShowSource" type="checkbox" checked="checked" />源码&nbsp;
+            <!--
             主题:
             <select onchange='javascript:Editor.changeTheme()' id="ThemeSelect" style="width:80px;">
                 <option value="ambiance">ambiance</option>
@@ -168,12 +170,16 @@ function OnContentChange()
                 <option value="vibrant_ink">vibrant_ink</option>
                 <option value="xcode">xcode</option>
             </select>
+            -->
 
             <input id="ShowRenderer" type="checkbox" checked="checked" />渲染&nbsp;
         </td>
     </tr>
     <tr>
-        <td id="EditorTd" style="width:50%">
+        <td id="FileBrowserTd" style="width:20%">
+            <div id="FileBrowser" />
+        </td>
+        <td id="EditorTd" style="width:40%">
             <table border="0" cellspacing="0" style="width:100%; height:100%">
                 <tr>
                     <td>
@@ -182,7 +188,7 @@ function OnContentChange()
                 </tr>
             </table>
         </td>
-        <td id="RendererTd" style="width:50%">
+        <td id="RendererTd" style="width:40%">
             <iframe id="Renderer" style="width:100%; height:100%; border:0px;" border=0></iframe>
         </td>
     </tr>
