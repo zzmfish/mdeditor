@@ -23,7 +23,7 @@ var FileBrowser = {
             for (var dirIndex = 0; dirIndex < pathParts.length - 1; dirIndex ++) {
                 var dirName = pathParts[dirIndex];
                 if (dirNode[dirName] == undefined)
-                    dirNode[dirName] = {"text": dirName, "children": []}
+                    dirNode[dirName] = {}
                 dirNode = dirNode[dirName]
             }
         }
@@ -33,15 +33,16 @@ var FileBrowser = {
 
     _buildShowData : function(data) {
         FileBrowser._log("_buildShowData")
+        console.log(data)
         var showData = []
         if (Array.isArray(data)) {
         } else {
             for (var dirName in data) {
-                console.log(dirName)
+                var dirData = data[dirName];
                 var nodeData = {
                     "text": dirName,
-                    "children": [],
-                }
+                    "children": FileBrowser._buildShowData(dirData),
+                };
                 showData.push(nodeData);
             }
         }
