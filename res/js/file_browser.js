@@ -26,6 +26,7 @@ var FileBrowser = {
                     dirNode[dirName] = {}
                 dirNode = dirNode[dirName]
             }
+            dirNode[pathParts[pathParts.length - 1]] = undefined;
         }
         console.log(rootNode);
         return rootNode;
@@ -35,16 +36,23 @@ var FileBrowser = {
         FileBrowser._log("_buildShowData")
         console.log(data)
         var showData = []
-        if (Array.isArray(data)) {
-        } else {
-            for (var dirName in data) {
-                var dirData = data[dirName];
-                var nodeData = {
+        for (var dirName in data) {
+            var dirData = data[dirName];
+            var nodeData = undefined;
+            if (dirData == undefined) {
+                nodeData =  {
+                    "text" : dirName,
+                    "icon" : "jstree-file"
+                };
+            }
+            else {
+                nodeData = {
                     "text": dirName,
                     "children": FileBrowser._buildShowData(dirData),
                 };
-                showData.push(nodeData);
             }
+            if (nodeData != undefined)
+                showData.push(nodeData);
         }
         return showData;
     },
