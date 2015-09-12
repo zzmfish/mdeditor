@@ -9,7 +9,39 @@ var FileBrowser = {
                 "data": showData,
             }}
         console.log(data)
-        $("#FileBrowser").jstree(data)
+        $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
+            if(data.selected.length) {
+                var elemId = data.selected[0];
+                var elemNode = document.getElementById(elemId);
+                console.log('select ' + elemNode);
+                if (elemNode.className.indexOf('jstree-leaf') >= 0) {
+                    FileBrowser._openFile(elemNode);
+                }
+            }
+        })
+    },
+
+    _openFile : function(fileNode) {
+        FileBrowser._log('_openFile: ' + fileNode);
+        var filePath = "";
+        while (true) {
+            if (fileNode.tagName == 'LI') {
+                for (var childIndex = 0; childIndex < fileNode.childNodes.length; childIndex ++) {
+                    var childNode = fileNode.childNodes[childIndex];
+                    if (childNode.tagName == 'A') {
+                        if (filePath.length > 0)
+                            filePath = "/" + filePath
+                        filePath = childNode.textContent + filePath;
+                    }
+                }
+            } else if (fileNode.tagName == 'UL') {
+            }
+            else
+                break;
+            fileNode = fileNode.parentNode;
+        }
+        console.log(filePath);
+        Editor.editFile(filePath);
     },
 
     _buildTreeData : function(files) {
