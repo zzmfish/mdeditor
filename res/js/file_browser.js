@@ -49,7 +49,7 @@ var FileBrowser = {
         var rootNode = {}
         for (var fileIndex = 0; fileIndex < files.length; fileIndex ++) {
             var file = files[fileIndex];
-            var pathParts = file.replace('\\', '/').split('/')
+            var pathParts = file.replace(/\\/g, '/').split('/')
             console.log(pathParts)
             var dirNode = rootNode;
             for (var dirIndex = 0; dirIndex < pathParts.length - 1; dirIndex ++) {
