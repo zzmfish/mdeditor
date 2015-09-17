@@ -41,6 +41,7 @@ var FileBrowser = {
             fileNode = fileNode.parentNode;
         }
         console.log(filePath);
+        document.getElementById('FileNameInput').value = filePath;
         Editor.editFile(filePath);
     },
 
