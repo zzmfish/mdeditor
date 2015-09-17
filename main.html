@@ -3,7 +3,7 @@
 <title>MDEditor</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 <link rel="stylesheet" type="text/css" href="/lib/jquery-ui/jquery-ui.css" />
-<link rel="stylesheet" href="lib/jstree/themes/default/style.min.css" />
+<link rel="stylesheet" href="/lib/jstree/themes/default/style.min.css" />
 <script src="/lib/jquery.js"></script>
 <script src="/lib/jquery-ui/jquery-ui.js"></script>
 <script src="/lib/ace/ace.js"></script>
@@ -179,7 +179,7 @@ function OnContentChange()
         </td>
     </tr>
     <tr>
-        <td id="FileBrowserTd" style="width:20%">
+        <td id="FileBrowserTd" style="width:20%; vertical-align:top; ">
             <div id="FileBrowser" />
         </td>
         <td id="EditorTd" style="width:40%">
@@ -199,7 +199,6 @@ function OnContentChange()
 
 <div id="Status" style="position:absolute;left:0px; bottom:0px;"></div>
 
-<div id="FileBrowser" style="position:absolute; width:200px; height:600px; top:0px; left:0px; background-color: green;"></div>
 <script>
 var files = {% raw files %};
 Editor.init();
