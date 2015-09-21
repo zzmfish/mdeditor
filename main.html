@@ -204,6 +204,10 @@ var files = {% raw files %};
 Editor.init();
 Toolbar.init(files);
 FileBrowser.update(files);
+FileBrowser.onOpen = function(filePath) {
+    document.getElementById('FileNameInput').value = filePath;
+    Editor.editFile(filePath);
+}
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())

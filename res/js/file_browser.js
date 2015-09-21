@@ -40,9 +40,8 @@ var FileBrowser = {
                 break;
             fileNode = fileNode.parentNode;
         }
-        console.log(filePath);
-        document.getElementById('FileNameInput').value = filePath;
-        Editor.editFile(filePath);
+        FileBrowser._log('onOpen:' + filePath)
+        FileBrowser.onOpen(filePath);
     },
 
     _buildTreeData : function(files) {
@@ -92,5 +91,8 @@ var FileBrowser = {
 
     _log : function(msg) {
         console.log('FileBrowser# ' + msg)
+    },
+
+    onOpen : function(filePath) {
     }
 };
