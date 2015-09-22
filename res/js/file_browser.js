@@ -7,7 +7,9 @@ var FileBrowser = {
         var data = {
             "core": {
                 "data": showData,
-            }}
+            },
+            "plugins" : [ "search" ]
+        }
         console.log(data)
         $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
             if(data.selected.length) {
@@ -94,5 +96,8 @@ var FileBrowser = {
     },
 
     onOpen : function(filePath) {
+    },
+    search : function(text) {
+        $('#FileBrowser').jstree(true).search(text);
     }
 };
