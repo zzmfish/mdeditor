@@ -1,16 +1,43 @@
 
 var FileBrowser = {
+    customMenu : function(node) {
+        // The default set of all items
+        var items = {
+            renameItem: { // The "rename" menu item
+                label: "Rename",
+                action: function () {
+                    alert('Rename');
+                }
+            },
+            deleteItem: { // The "delete" menu item
+                label: "Delete",
+                action: function () {
+                    alert('Delete');
+                }
+            }
+        };
+
+        if ($(node).hasClass("folder")) {
+            // Delete the "delete" menu item
+            delete items.deleteItem;
+        }
+
+        return items;
+    },
+
     update : function(files) {
         FileBrowser._log("update")
         FileBrowser._getTreeData(function(treeData) {
             var showData = FileBrowser._buildShowData(treeData);
             var data = {
-                "core": {
-                    "data": showData,
+                core: {
+                    data: showData,
                 },
-                "plugins" : [ "search" ]
-            }
-            console.log(data)
+                plugins : [ "search" , "contextmenu"],
+                contextmenu: {
+                    items: FileBrowser.customMenu
+                },
+            };
             $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
                 if(data.selected.length) {
                     var elemId = data.selected[0];
