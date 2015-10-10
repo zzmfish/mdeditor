@@ -2,25 +2,26 @@
 var FileBrowser = {
     update : function(files) {
         FileBrowser._log("update")
-        var treeData = FileBrowser._buildTreeData(files);
-        var showData = FileBrowser._buildShowData(treeData);
-        var data = {
-            "core": {
-                "data": showData,
-            },
-            "plugins" : [ "search" ]
-        }
-        console.log(data)
-        $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
-            if(data.selected.length) {
-                var elemId = data.selected[0];
-                var elemNode = document.getElementById(elemId);
-                console.log('select ' + elemNode);
-                if (elemNode.className.indexOf('jstree-leaf') >= 0) {
-                    FileBrowser._openFile(elemNode);
-                }
+        FileBrowser._getTreeData(function(treeData) {
+            var showData = FileBrowser._buildShowData(treeData);
+            var data = {
+                "core": {
+                    "data": showData,
+                },
+                "plugins" : [ "search" ]
             }
-        })
+            console.log(data)
+            $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
+                if(data.selected.length) {
+                    var elemId = data.selected[0];
+                    var elemNode = document.getElementById(elemId);
+                    console.log('select ' + elemNode);
+                    if (elemNode.className.indexOf('jstree-leaf') >= 0) {
+                        FileBrowser._openFile(elemNode);
+                    }
+                }
+            });
+        });
     },
 
     _openFile : function(fileNode) {
@@ -46,24 +47,18 @@ var FileBrowser = {
         FileBrowser.onOpen(filePath);
     },
 
-    _buildTreeData : function(files) {
-        FileBrowser._log("_buildTreeData")
-        var rootNode = {}
-        for (var fileIndex = 0; fileIndex < files.length; fileIndex ++) {
-            var file = files[fileIndex];
-            var pathParts = file.replace(/\\/g, '/').split('/')
-            console.log(pathParts)
-            var dirNode = rootNode;
-            for (var dirIndex = 0; dirIndex < pathParts.length - 1; dirIndex ++) {
-                var dirName = pathParts[dirIndex];
-                if (dirNode[dirName] == undefined)
-                    dirNode[dirName] = {}
-                dirNode = dirNode[dirName]
+    _getTreeData : function(callback) {
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function() {
+            if (req.readyState == 4) { //loaded
+                if (req.status == 200) {
+                    console.log(req.responseText);
+                    callback(eval('(' + req.responseText + ')'));
+                }
             }
-            dirNode[pathParts[pathParts.length - 1]] = undefined;
         }
-        console.log(rootNode);
-        return rootNode;
+        req.open('GET', '/list', true);
+        req.send();
     },
 
     _buildShowData : function(data) {

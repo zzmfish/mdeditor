@@ -39,9 +39,12 @@ class ListFilesHandler(tornado.web.RequestHandler):
         pass
 
     def get(self):
+        exclude_dirs = ['.git', 'images', 'res']
         result = {}
         root_dir = config.md_dir
         for root, dirs, files in os.walk(root_dir, followlinks=True):
+            if root.startswith('.') or root.find('/.') >= 0:
+                continue
             # 不显示起始目录
             if root.startswith(root_dir):
                 root = root[len(root_dir):]
@@ -49,7 +52,7 @@ class ListFilesHandler(tornado.web.RequestHandler):
 
             # 跳过特殊目录
             should_skip = False
-            for exclude_dir in ['.git', 'images', 'res']:
+            for exclude_dir in exclude_dirs:
                 if root == exclude_dir or root.startswith(exclude_dir + os.sep):
                     should_skip = True
             if should_skip:
@@ -58,17 +61,20 @@ class ListFilesHandler(tornado.web.RequestHandler):
             # 记录上层目录
             parent_dir = result
             for depth in root.split(os.sep):
+                if len(depth) == 0:
+                    break
                 if depth not in parent_dir:
                     parent_dir[depth] = {}
                 parent_dir = parent_dir[depth]
 
             # 记录子目录
             for sub_dir in dirs:
-                parent_dir[sub_dir] = {}
+                if not sub_dir.startswith('.') and sub_dir not in exclude_dirs:
+                    parent_dir[sub_dir] = {}
 
             # 记录文件
             for file in files:
-                parent_dir[file] = None
-
+                if file.endswith('.md'):
+                    parent_dir[file[:-3]] = None
 
         self.write(json.dumps(result, indent=2))
