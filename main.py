@@ -24,6 +24,7 @@ def main():
             (r"/GetFile", handler.GetFileHandler),
             (r"/SaveFile", handler.SaveFileHandler),
             (r"/list", handler.ListFilesHandler),
+            (r"/move", handler.MoveFileHandler),
             (r"/Render", handler.RenderHandler),
             (r"/css/.*", handler.ResourceHandler),
             (r"/js/.*", handler.ResourceHandler),

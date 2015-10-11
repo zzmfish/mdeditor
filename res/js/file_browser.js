@@ -59,6 +59,8 @@ var FileBrowser = {
             FileBrowser._getTree(data)
                 .on("mousedown", function (e) {
                     var node = e.target;
+                    if (! node.classList.contains('jstree-anchor'))
+                        return;
                     var tree = FileBrowser._getTree();
                     if (tree.is_selected(node)) {
                         setTimeout(function () { tree.edit(node); },0);
@@ -76,7 +78,14 @@ var FileBrowser = {
                     alert('create_node event');
                 })
                 .on("rename_node.jstree", function(e, data) {
-                    alert('rename_node event');
+                    var newPath = FileBrowser._getPath(data.node);
+                    var oldName = data.old;
+                    var oldPath = "";
+                    if (newPath.indexOf('/') >= 0)
+                        oldPath = newPath.replace(/\/[^\/]*$/, '/' + oldName);
+                    else
+                        oldPath = oldName;
+                    FileBrowser.onRename(oldPath, newPath);
                 })
         });
     },
@@ -124,8 +133,9 @@ var FileBrowser = {
         console.log('FileBrowser# ' + msg)
     },
 
-    onOpen : function(filePath) {
-    },
+    onOpen : function(filePath) {},
+
+    onRename : function(oldName, newName) {},
 
     search : function(text) {
         $('#FileBrowser').jstree(true).search(text);

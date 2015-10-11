@@ -78,3 +78,14 @@ class ListFilesHandler(tornado.web.RequestHandler):
                     parent_dir[file[:-3]] = None
 
         self.write(json.dumps(result, indent=2))
+
+
+class MoveFileHandler(tornado.web.RequestHandler):
+    def get(self):
+        from_name = self.get_argument('from').encode(config.fs_charset)
+        to_name = self.get_argument('to').encode(config.fs_charset)
+        os.system('cd %s; git mv %s %s' % (config.md_dir, from_name, to_name))
+        os.system('cd %s; git mv %s.md %s.md' % (config.md_dir, from_name, to_name))
+        os.system('cd %s; mv %s.md %s.md' % (config.md_dir, from_name, to_name))
+
+

@@ -10,6 +10,7 @@
 <script src="/js/editor.js"></script>
 <script src="/js/toolbar.js"></script>
 <script src="/js/file_browser.js"></script>
+<script src="/js/file_manager.js"></script>
 <script src="/lib/ace/mode-markdown.js" type="text/javascript" charset="utf-8"></script>
 <script src="/lib/jstree/jstree.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -203,11 +204,16 @@ function OnContentChange()
 var files = {% raw files %};
 Editor.init();
 Toolbar.init(files);
-FileBrowser.update(files);
 FileBrowser.onOpen = function(filePath) {
     document.getElementById('FileNameInput').value = filePath;
     Editor.editFile(filePath);
-}
+};
+
+FileBrowser.onRename = function(oldPath, newPath) {
+    FileManager.move(oldPath, newPath);
+};
+
+FileBrowser.update(files);
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())

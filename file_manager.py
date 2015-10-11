@@ -25,7 +25,7 @@ class FileManager:
 
         return out_names
 
-    def __get_file_path(self, name):
+    def get_file_path(self, name):
         if type(name) is unicode:
             name = name.encode(config.fs_charset)
         return os.path.join(config.md_dir, '%s.md' % name)
@@ -33,24 +33,27 @@ class FileManager:
     def save_file(self, name, data):
         if not name:
             return False
-        file_path = self.__get_file_path(name)
+        file_path = self.get_file_path(name)
         file_dir = os.path.dirname(file_path)
         if not os.path.exists(file_dir):
             os.makedirs(file_dir)
         if isinstance(data, unicode):
             data = data.encode('utf-8')
-        tornado.log.app_log.info('file %s is saved, size is %d' % (file_path, len(data)))
+        self.info('file %s is saved, size is %d' % (file_path, len(data)))
         open(file_path, 'w').write(data)
         return True
 
     def load_file(self, name):
         if not name:
             return False
-        file_path = self.__get_file_path(name)
+        file_path = self.get_file_path(name)
         if not os.path.exists(file_path):
             return False
         data = open(file_path, 'r').read()
-        tornado.log.app_log.info('file %s is loaded, size is %d' % (file_path, len(data)))
+        self.info('file %s is loaded, size is %d' % (file_path, len(data)))
         return data
+
+    def info(self, msg, *args):
+        tornado.log.app_log.info(msg, args)
 
 file_manager = FileManager()
