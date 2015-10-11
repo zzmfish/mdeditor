@@ -1,5 +1,6 @@
 
 var FileBrowser = {
+
     customMenu : function(node) {
         // The default set of all items
         var items = {
@@ -38,7 +39,7 @@ var FileBrowser = {
                     items: FileBrowser.customMenu
                 },
             };
-            $("#FileBrowser").jstree(data).on("changed.jstree", function (e, data) {
+            FileBrowser._getTree(data).on("changed.jstree", function (e, data) {
                 if(data.selected.length) {
                     var elemId = data.selected[0];
                     var elemNode = document.getElementById(elemId);
@@ -53,23 +54,7 @@ var FileBrowser = {
 
     _openFile : function(fileNode) {
         FileBrowser._log('_openFile: ' + fileNode);
-        var filePath = "";
-        while (true) {
-            if (fileNode.tagName == 'LI') {
-                for (var childIndex = 0; childIndex < fileNode.childNodes.length; childIndex ++) {
-                    var childNode = fileNode.childNodes[childIndex];
-                    if (childNode.tagName == 'A') {
-                        if (filePath.length > 0)
-                            filePath = "/" + filePath
-                        filePath = childNode.textContent + filePath;
-                    }
-                }
-            } else if (fileNode.tagName == 'UL') {
-            }
-            else
-                break;
-            fileNode = fileNode.parentNode;
-        }
+        var filePath = FileBrowser._getPath(fileNode);
         FileBrowser._log('onOpen:' + filePath)
         FileBrowser.onOpen(filePath);
     },
@@ -119,7 +104,16 @@ var FileBrowser = {
 
     onOpen : function(filePath) {
     },
+
     search : function(text) {
         $('#FileBrowser').jstree(true).search(text);
-    }
+    },
+
+    _getTree: function(data) {
+        return $('#FileBrowser').jstree(data || true);
+    },
+
+    _getPath: function(node) {
+        return FileBrowser._getTree(true).get_path(node, '/');
+    },
 };
