@@ -1,8 +1,6 @@
 
 var FileBrowser = {
 
-    _openedPath : null,
-
     customMenu : function(node) {
         // The default set of all items
         var items = {
@@ -59,19 +57,18 @@ var FileBrowser = {
                 },
             };
             FileBrowser._getTree(data)
-                .on("click.jstree", function (e, data) {
+                .on("mousedown", function (e) {
                     var node = e.target;
                     var tree = FileBrowser._getTree();
-                    var path = tree.get_path(node, '/');
-                    var isLeaf = tree.is_leaf(node);
-                    console.log('FileBrowser click: path=' + path + ', is_leaf=' + isLeaf);
-                    if (isLeaf) {
-                        if (path == FileBrowser._openedPath) {
-                            tree.edit(node);
-                        }
-                        else {
+                    if (tree.is_selected(node)) {
+                        setTimeout(function () { tree.edit(node); },0);
+                    }
+                    else {
+                        var path = tree.get_path(node, '/');
+                        var isLeaf = tree.is_leaf(node);
+                        console.log('FileBrowser click: path=' + path + ', is_leaf=' + isLeaf);
+                        if (isLeaf) {
                             FileBrowser.onOpen(path);
-                            FileBrowser._openedPath = path;
                         }
                     }
                 })
