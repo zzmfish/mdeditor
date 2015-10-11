@@ -1,6 +1,8 @@
 
 var FileBrowser = {
 
+    _openedPath : null,
+
     customMenu : function(node) {
         // The default set of all items
         var items = {
@@ -57,14 +59,19 @@ var FileBrowser = {
                 },
             };
             FileBrowser._getTree(data)
-                .on("changed.jstree", function (e, data) {
-                    console.log('change.jstree event');
-                    if(data.selected.length) {
-                        var elemId = data.selected[0];
-                        var elemNode = document.getElementById(elemId);
-                        console.log('select ' + elemNode);
-                        if (elemNode.className.indexOf('jstree-leaf') >= 0) {
-                            FileBrowser._openFile(elemNode);
+                .on("click.jstree", function (e, data) {
+                    var node = e.target;
+                    var tree = FileBrowser._getTree();
+                    var path = tree.get_path(node, '/');
+                    var isLeaf = tree.is_leaf(node);
+                    console.log('FileBrowser click: path=' + path + ', is_leaf=' + isLeaf);
+                    if (isLeaf) {
+                        if (path == FileBrowser._openedPath) {
+                            tree.edit(node);
+                        }
+                        else {
+                            FileBrowser.onOpen(path);
+                            FileBrowser._openedPath = path;
                         }
                     }
                 })
@@ -73,15 +80,8 @@ var FileBrowser = {
                 })
                 .on("rename_node.jstree", function(e, data) {
                     alert('rename_node event');
-                });
+                })
         });
-    },
-
-    _openFile : function(fileNode) {
-        FileBrowser._log('_openFile: ' + fileNode);
-        var filePath = FileBrowser._getPath(fileNode);
-        FileBrowser._log('onOpen:' + filePath)
-        FileBrowser.onOpen(filePath);
     },
 
     _getTreeData : function(callback) {
