@@ -4,18 +4,34 @@ var FileBrowser = {
     customMenu : function(node) {
         // The default set of all items
         var items = {
-            renameItem: { // The "rename" menu item
-                label: "Rename",
-                action: function () {
-                    alert('Rename');
+            create: {
+                label: "创建",
+                action: false,
+                submenu: {
+                    create_folder: {
+                        label: "目录",
+                        action: function (data) {
+                            var inst = $.jstree.reference(data.reference),
+                                obj = inst.get_node(data.reference);
+                            inst.create_node(obj, {}, "last", function (new_node) {
+                                setTimeout(function () { inst.edit(new_node); },0);
+                            });
+                        }
+                    },
+                    create_file: {
+                        label: "笔记",
+                        action: function (data) {
+                            alert('create file');
+                        }
+                    },
                 }
             },
-            deleteItem: { // The "delete" menu item
-                label: "Delete",
+            remove: {
+                label: "删除",
                 action: function () {
-                    alert('Delete');
+                    alert('remove');
                 }
-            }
+            },
         };
 
         if ($(node).hasClass("folder")) {
@@ -33,22 +49,31 @@ var FileBrowser = {
             var data = {
                 core: {
                     data: showData,
+                    check_callback: true,
                 },
                 plugins : [ "search" , "contextmenu"],
                 contextmenu: {
                     items: FileBrowser.customMenu
                 },
             };
-            FileBrowser._getTree(data).on("changed.jstree", function (e, data) {
-                if(data.selected.length) {
-                    var elemId = data.selected[0];
-                    var elemNode = document.getElementById(elemId);
-                    console.log('select ' + elemNode);
-                    if (elemNode.className.indexOf('jstree-leaf') >= 0) {
-                        FileBrowser._openFile(elemNode);
+            FileBrowser._getTree(data)
+                .on("changed.jstree", function (e, data) {
+                    console.log('change.jstree event');
+                    if(data.selected.length) {
+                        var elemId = data.selected[0];
+                        var elemNode = document.getElementById(elemId);
+                        console.log('select ' + elemNode);
+                        if (elemNode.className.indexOf('jstree-leaf') >= 0) {
+                            FileBrowser._openFile(elemNode);
+                        }
                     }
-                }
-            });
+                })
+                .on("create_node.jstree", function(e, data) {
+                    alert('create_node event');
+                })
+                .on("rename_node.jstree", function(e, data) {
+                    alert('rename_node event');
+                });
         });
     },
 
