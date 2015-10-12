@@ -11,10 +11,10 @@ var FileBrowser = {
                     create_folder: {
                         label: "目录",
                         action: function (data) {
-                            var inst = $.jstree.reference(data.reference),
-                                obj = inst.get_node(data.reference);
-                            inst.create_node(obj, {}, "last", function (new_node) {
-                                setTimeout(function () { inst.edit(new_node); },0);
+                            var tree = FileBrowser._getTree(),
+                                obj = tree.get_node(data.reference);
+                            tree.create_node(obj, {}, "last", function (new_node) {
+                                setTimeout(function () { tree.edit(new_node); },0);
                             });
                         }
                     },
@@ -75,7 +75,9 @@ var FileBrowser = {
                     }
                 })
                 .on("create_node.jstree", function(e, data) {
-                    alert('create_node event');
+                    var tree = FileBrowser._getTree();
+                    var path = tree.get_path(data.node, '/');
+                    FileBrowser.onCreateFolder(path);
                 })
                 .on("rename_node.jstree", function(e, data) {
                     var newPath = FileBrowser._getPath(data.node);
@@ -85,7 +87,7 @@ var FileBrowser = {
                         oldPath = newPath.replace(/\/[^\/]*$/, '/' + oldName);
                     else
                         oldPath = oldName;
-                    FileBrowser.onRename(oldPath, newPath);
+                    FileBrowser.onMove(oldPath, newPath);
                 })
         });
     },
@@ -135,7 +137,9 @@ var FileBrowser = {
 
     onOpen : function(filePath) {},
 
-    onRename : function(oldName, newName) {},
+    onMove : function(oldName, newName) {},
+
+    onCreateFolder : function(path) {},
 
     search : function(text) {
         $('#FileBrowser').jstree(true).search(text);

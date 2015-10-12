@@ -89,3 +89,13 @@ class MoveFileHandler(tornado.web.RequestHandler):
         os.system('cd %s; mv %s.md %s.md' % (config.md_dir, from_name, to_name))
 
 
+class MkDirHandler(tornado.web.RequestHandler):
+    def get(self):
+        name = self.get_argument('name').encode(config.fs_charset)
+        cmd = 'cd %s; git add "%s"' % (config.md_dir, name)
+        print cmd
+        os.system(cmd)
+
+        path = os.path.join(config.md_dir, name)
+        print 'mkdir %s' % path
+        os.mkdir(path)

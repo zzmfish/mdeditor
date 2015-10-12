@@ -1,8 +1,16 @@
 
 var FileManager = {
-    move: function(oldPath, newPath)
-    {
-        var url = '/move?from=' + encodeURIComponent(oldPath) + '&to=' + encodeURIComponent(newPath);
+    _request: function(path, params) {
+        var url = path;
+        var firstParam = true;
+        for (paramName in params) {
+            if (firstParam)
+                url += '?';
+            else
+                url += '&';
+            url += paramName + '=' + encodeURIComponent(params[paramName]);
+            firstParam = false;
+        }
         var req = new XMLHttpRequest();
         req.onreadystatechange = function() {
             if (req.readyState == 4) { //loaded
@@ -14,5 +22,13 @@ var FileManager = {
         }
         req.open("GET", url, true);
         req.send();
+    },
+
+    move: function(oldPath, newPath) {
+        FileManager._request('/move', {from:oldPath, to:newPath});
+    },
+
+    createFolder: function(path) {
+        FileManager._request('/mkdir', {name:path});
     }
 };

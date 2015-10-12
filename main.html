@@ -209,8 +209,13 @@ FileBrowser.onOpen = function(filePath) {
     Editor.editFile(filePath);
 };
 
-FileBrowser.onRename = function(oldPath, newPath) {
-    FileManager.move(oldPath, newPath);
+FileBrowser.onMove = function(oldPath, newPath) {
+    if (oldPath != newPath)
+        FileManager.move(oldPath, newPath);
+};
+
+FileBrowser.onCreateFolder = function(path) {
+    FileManager.createFolder(path);
 };
 
 FileBrowser.update(files);
