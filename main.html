@@ -218,6 +218,14 @@ FileBrowser.onCreateFolder = function(path) {
     FileManager.createFolder(path);
 };
 
+FileBrowser.onCreateFile = function(path) {
+    FileManager.createFile(path);
+};
+
+FileBrowser.onDelete = function(path) {
+    FileManager.remove(path);
+};
+
 FileBrowser.update(files);
 
 window.onbeforeunload = function() {

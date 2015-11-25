@@ -28,7 +28,15 @@ var FileManager = {
         FileManager._request('/move', {from:oldPath, to:newPath});
     },
 
+    remove: function(path) {
+        FileManager._request('/remove', {name:path});
+    },
+
     createFolder: function(path) {
         FileManager._request('/mkdir', {name:path});
-    }
+    },
+
+    createFile: function(path) {
+        FileManager._request('/touch', {name:path + '.md'});
+    },
 };

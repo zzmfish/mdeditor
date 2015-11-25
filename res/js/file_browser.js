@@ -21,15 +21,26 @@ var FileBrowser = {
                     create_file: {
                         label: "笔记",
                         action: function (data) {
-                            alert('create file');
+                            var tree = FileBrowser._getTree(),
+                                obj = tree.get_node(data.reference);
+                            tree.create_node(obj, {"icon" : "jstree-file"}, "last", function (new_node) {
+                                setTimeout(function () { tree.edit(new_node); },0);
+                            });
                         }
                     },
                 }
             },
             remove: {
                 label: "删除",
-                action: function () {
-                    alert('remove');
+                action: function (data) {
+                    var tree = FileBrowser._getTree();
+                    var obj = tree.get_node(data.reference);
+                    if(tree.is_selected(obj)) {
+                        tree.delete_node(tree.get_selected());
+                    }
+                    else {
+                        tree.delete_node(obj);
+                    }
                 }
             },
         };
@@ -77,7 +88,10 @@ var FileBrowser = {
                 .on("create_node.jstree", function(e, data) {
                     var tree = FileBrowser._getTree();
                     var path = tree.get_path(data.node, '/');
-                    FileBrowser.onCreateFolder(path);
+                    if (data.node.icon == "jstree-file")
+                        FileBrowser.onCreateFile(path);
+                    else
+                        FileBrowser.onCreateFolder(path);
                 })
                 .on("rename_node.jstree", function(e, data) {
                     var newPath = FileBrowser._getPath(data.node);
@@ -88,6 +102,11 @@ var FileBrowser = {
                     else
                         oldPath = oldName;
                     FileBrowser.onMove(oldPath, newPath);
+                })
+                .on("delete_node.jstree", function(e, data) {
+                    var tree = FileBrowser._getTree();
+                    var path = tree.get_path(data.node, '/');
+                    FileBrowser.onDelete(path);
                 })
         });
     },
@@ -140,6 +159,10 @@ var FileBrowser = {
     onMove : function(oldName, newName) {},
 
     onCreateFolder : function(path) {},
+
+    onCreateFile : function(path) {},
+
+    onDelete : function(path) {},
 
     search : function(text) {
         $('#FileBrowser').jstree(true).search(text);
