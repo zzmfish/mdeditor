@@ -39,8 +39,8 @@ class FileManager:
             os.makedirs(file_dir)
         if isinstance(data, unicode):
             data = data.encode('utf-8')
-        self.info('file %s is saved, size is %d' % (file_path, len(data)))
         open(file_path, 'w').write(data)
+        self.info('file %s is saved, size is %d' % (file_path, len(data)))
         return True
 
     def load_file(self, name):
@@ -54,6 +54,10 @@ class FileManager:
         return data
 
     def info(self, msg, *args):
-        tornado.log.app_log.info(msg, args)
+        try:
+            tornado.log.app_log.info(msg)
+        except:
+            import traceback
+            traceback.print_exc()
 
 file_manager = FileManager()
