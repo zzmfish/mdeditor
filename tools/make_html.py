@@ -7,22 +7,25 @@ import config
 import markdown
 
 
+converter = markdown.Markdown(
+        extensions=['tables', 'fenced_code', 'toc', 'codehilite', 'tools.code2img'],
+        extension_configs={
+            'codehilite':
+            {
+                'linenums': False,
+                'noclasses': True,
+                'pygments_style': 'native',
+            }
+        })
+
+
 def make_html(src, css):
     if type(src) is str:
         src = src.decode(config.md_charset)
 
     style = css.endswith('.css') and '<link rel="stylesheet" href="%s" />' % css \
             or '<style>%s</style>' % css
-    converter = markdown.Markdown(
-            extensions=['tables', 'fenced_code', 'toc', 'codehilite', 'tools.code2img'],
-            extension_configs={
-                'codehilite':
-                {
-                    'linenums': False,
-                    'noclasses': True,
-                    'pygments_style': 'native',
-                }
-            })
+
     title = ''
     match = re.search(r'#.*', src)
     if match:
