@@ -1,5 +1,6 @@
 
 var FileBrowser = {
+    searchWord : "",
 
     customMenu : function(node) {
         // The default set of all items
@@ -165,7 +166,13 @@ var FileBrowser = {
     onDelete : function(path) {},
 
     search : function(text) {
-        $('#FileBrowser').jstree(true).search(text);
+        FileBrowser.searchWord = text;
+        setTimeout(function() {
+            if (FileBrowser.searchWord) {
+                $('#FileBrowser').jstree(true).search(FileBrowser.searchWord);
+                FileBrowser.searchWord = null;
+            }
+        }, 1000)
     },
 
     _getTree: function(data) {
