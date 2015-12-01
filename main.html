@@ -137,8 +137,10 @@ function OnContentChange()
         <td colspan="3">
             <nav class="navbar navbar-default" style="margin-bottom:0px">
                 <div class="container-fluid">
-                    <div style="display:none">
-                        文件: <input id="FileNameInput" type="text" style="width:300px;" />
+                    <input id="FileNameInput" type="hidden" />
+
+                    <div class="navbar-header">
+                        <label class="navbar-brand">MdEditor</label>
                     </div>
 
                     <form class="navbar-form">
@@ -197,10 +199,8 @@ function OnContentChange()
 </td>
     </tr>
     <tr>
-        <td id="FileBrowserTd" style="width:20%; vertical-align:top; position:relative;">
-            <div>
-                <div id="FileBrowser"></div>
-            </div>
+        <td id="FileBrowserTd" style="width:20%; vertical-align:top; position:relative; border-right: solid 1px #ddd">
+            <div id="FileBrowser"></div>
         </td>
         <td id="EditorTd" style="width:40%">
             <table border="0" cellspacing="0" style="width:100%; height:100%">
