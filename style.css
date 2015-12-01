@@ -130,6 +130,19 @@ table, tr, td, th { border: 1px solid #CCCCCC }
     body{font-size:16px;}
 }
 
+@media only screen and (min-width: 1024px) {
+    html {
+        background-color: #eee;
+        padding: 15px;
+    }
+    body {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #ddd;
+        min-height: 1000px;
+    }
+}
+
 /*我添加的*/
 .toc ul,li { margin:0px }
 h4, h5, h6 { margin: 0px }

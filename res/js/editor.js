@@ -7,7 +7,7 @@ var Editor = {
     {
         //初始化编辑器
         var editor = ace.edit("Editor");
-        editor.setTheme("ace/theme/kuroir");
+        editor.setTheme("ace/theme/chaos");
         editor.renderer.setOption('showLineNumbers', false);
         editor.renderer.setOption('showGutter', false);
         editor.renderer.setOption('showPrintMargin', false);
