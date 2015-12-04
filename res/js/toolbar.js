@@ -59,12 +59,6 @@ var Toolbar = {
             Toolbar._updateSourceAndRendererLayout();
         });
 
-        //根据url hash打开文件
-        if (window.location.hash) {
-            var fileName = unescape(window.location.hash.substr(1));
-            this.fileNameInput.val(fileName);
-            Editor.editFile(fileName);
-        }
 
         Toolbar._updateSourceAndRendererLayout()
     },

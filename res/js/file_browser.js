@@ -55,7 +55,7 @@ var FileBrowser = {
         return items;
     },
 
-    update : function(files) {
+    update : function(files, selectFile) {
         FileBrowser._log("update")
         FileBrowser._getTreeData(function(treeData) {
             var showData = FileBrowser._buildShowData(treeData);
@@ -121,7 +121,11 @@ var FileBrowser = {
                     console.log("move: " + oldPath + " -> " + newPath);
                     FileBrowser.onMove(oldPath, newPath);
                 })
+                .on("loaded.jstree", function() {
+                    FileBrowser.select(selectFile);
+                });
         });
+
     },
 
     _getTreeData : function(callback) {
@@ -189,6 +193,27 @@ var FileBrowser = {
                 FileBrowser.searchWord = null;
             }
         }, 1000)
+    },
+
+    select : function(path) {
+        if (!path)
+            return;
+        var name = path;
+        if (name.indexOf('/') >= 0)
+            name = name.substring(name.lastIndexOf('/') + 1);
+        var tree = FileBrowser._getTree();
+        var data = tree._model.data;
+        for (var nodeId in data) {
+            if (name == data[nodeId].text) {
+                var nodePath = FileBrowser._getPath(nodeId);
+                if (nodePath == path) {
+                    console.log("select and open: " + nodeId);
+                    tree.select_node(nodeId);
+                    tree.open_node(nodeId);
+                }
+            }
+        }
+
     },
 
     _getTree: function(data) {

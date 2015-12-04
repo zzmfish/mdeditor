@@ -259,7 +259,18 @@ FileBrowser.onDelete = function(path) {
     FileManager.remove(path);
 };
 
-FileBrowser.update(files);
+
+
+var fileName = null;
+//根据url hash打开文件
+if (window.location.hash) {
+    fileName = unescape(window.location.hash.substr(1));
+    Toolbar.fileNameInput.val(fileName);
+    Editor.editFile(fileName);
+    //FileBrowser.select(fileName);
+}
+
+FileBrowser.update(files, fileName);
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())
