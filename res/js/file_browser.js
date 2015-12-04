@@ -63,7 +63,7 @@ var FileBrowser = {
                     data: showData,
                     check_callback: true,
                 },
-                plugins : [ "search" , "contextmenu"],
+                plugins : [ "search" , "contextmenu", "dnd"],
                 contextmenu: {
                     items: FileBrowser.customMenu
                 },
@@ -108,6 +108,16 @@ var FileBrowser = {
                     var tree = FileBrowser._getTree();
                     var path = tree.get_path(data.node, '/');
                     FileBrowser.onDelete(path);
+                })
+                .on("move_node.jstree", function(e, data) {
+                    console.log('move_node');
+                    console.log(data);
+                    var tree = FileBrowser._getTree();
+                    var oldParent = data.old_parent == '#' ? "" : tree.get_path(data.old_parent, "/") + "/";
+                    var oldPath = oldParent + data.node.text;
+                    var newPath = tree.get_path(data.node, "/");
+                    console.log("move: " + oldPath + " -> " + newPath);
+                    FileBrowser.onMove(oldPath, newPath);
                 })
         });
     },
