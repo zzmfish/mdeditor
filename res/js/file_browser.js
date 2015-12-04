@@ -184,7 +184,9 @@ var FileBrowser = {
     search : function(text) {
         console.log('search:' + text);
         if (!text) {
-            $('#FileBrowser').jstree(true).close_all();
+            var tree = FileBrowser._getTree();
+            tree.close_all();
+            FileBrowser.open(tree.get_selected()[0]);
         }
         FileBrowser.searchWord = text;
         setTimeout(function() {
@@ -214,6 +216,15 @@ var FileBrowser = {
             }
         }
 
+    },
+
+    open : function(node) {
+        var tree = FileBrowser._getTree();
+        var parent = tree.get_parent(node);
+        while (parent) {
+            tree.open_node(parent);
+            parent = tree.get_parent(parent);
+        }
     },
 
     _getTree: function(data) {
