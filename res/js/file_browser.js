@@ -178,6 +178,10 @@ var FileBrowser = {
     onDelete : function(path) {},
 
     search : function(text) {
+        console.log('search:' + text);
+        if (!text) {
+            $('#FileBrowser').jstree(true).close_all();
+        }
         FileBrowser.searchWord = text;
         setTimeout(function() {
             if (FileBrowser.searchWord) {
