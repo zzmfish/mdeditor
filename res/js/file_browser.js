@@ -1,6 +1,7 @@
 
 var FileBrowser = {
     searchWord : "",
+    lastClick : null,
 
     customMenu : function(node) {
         // The default set of all items
@@ -69,12 +70,12 @@ var FileBrowser = {
                 },
             };
             FileBrowser._getTree(data)
-                .on("mousedown", function (e) {
+                .on("click", function (e) {
                     var node = e.target;
                     if (! node.classList.contains('jstree-anchor'))
                         return;
                     var tree = FileBrowser._getTree();
-                    if (tree.is_selected(node)) {
+                    if (node == FileBrowser.lastClick) {
                         setTimeout(function () { tree.edit(node); },0);
                     }
                     else {
@@ -85,6 +86,7 @@ var FileBrowser = {
                             FileBrowser.onOpen(path);
                         }
                     }
+                    FileBrowser.lastClick = node;
                 })
                 .on("create_node.jstree", function(e, data) {
                     var tree = FileBrowser._getTree();
