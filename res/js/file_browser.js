@@ -57,7 +57,7 @@ var FileBrowser = {
 
     update : function(files, selectFile) {
         FileBrowser._log("update")
-        FileBrowser._getTreeData(function(treeData) {
+        function showTreeData(treeData) {
             var showData = FileBrowser._buildShowData(treeData);
             var data = {
                 core: {
@@ -124,7 +124,11 @@ var FileBrowser = {
                 .on("loaded.jstree", function() {
                     FileBrowser.select(selectFile);
                 });
-        });
+        }
+        if (!files)
+            FileBrowser._getTreeData(showTreeData);
+        else
+            showTreeData(files);
 
     },
 
@@ -150,8 +154,13 @@ var FileBrowser = {
             var dirData = data[dirName];
             var nodeData = undefined;
             if (dirData == undefined) {
+                var fileName = dirName;
+                if (fileName.endsWith('.md'))
+                    fileName = fileName.substring(0, fileName.length - 3);
+                else if (fileName.endsWith('.html'))
+                    fileName = fileName.substring(0, fileName.length - 5);
                 nodeData =  {
-                    "text" : dirName,
+                    "text" : fileName,
                     "icon" : "jstree-file"
                 };
             }

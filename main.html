@@ -234,9 +234,9 @@ body { font-family: "Microsoft YaHei" }
 <div id="Status" style="position:absolute;left:0px; bottom:0px;"></div>
 
 <script>
-var files = {% raw files %};
+//var files = {% raw files %};
 Editor.init();
-Toolbar.init(files);
+Toolbar.init([]);
 FileBrowser.onOpen = function(filePath) {
     document.getElementById('FileNameInput').value = filePath;
     Editor.editFile(filePath);
@@ -270,7 +270,7 @@ if (window.location.hash) {
     //FileBrowser.select(fileName);
 }
 
-FileBrowser.update(files, fileName);
+FileBrowser.update(undefined, fileName);
 
 window.onbeforeunload = function() {
     if (NeedSaveFile())
