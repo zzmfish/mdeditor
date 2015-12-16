@@ -15,36 +15,7 @@ function NeedSaveFile()
 function ConfirmUnsavedFile()
 {
     if (NeedSaveFile() && confirm("是否保存文件？"))
-        SaveFile();
-}
-
-function SaveFile()
-{
-    var fileName = Editor.GetFileName();
-    if (!fileName)
-        return;
-    //发起http请求：保存文件
-    var req_content = 'text=' + encodeURIComponent(Editor.getValue())
-            + '&f=' + encodeURIComponent(fileName);
-    var req = new XMLHttpRequest();
-    req.open('POST', '/SaveFile', false);
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.setRequestHeader("Content-length", req_content.length);
-    req.send(req_content);
-
-    //显示保存成功或失败
-    var statusElem = document.getElementById('Status');
-    if (req.status == 200) {
-        statusElem.textContent = '文件保存成功！';
-        document.getElementById('SaveButton').setAttribute('disabled', '');
-    }
-    else
-        statusElem.textContent = '文件保存失败！';
-
-    //取消显示
-    setTimeout(function() {
-        statusElem.textContent = '';
-    }, 3000);
+        Editor.SaveFile();
 }
 
 function Render()

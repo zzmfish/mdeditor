@@ -8,7 +8,6 @@ var Toolbar = {
         //获取控件
         this.fileNameInput = $("#FileNameInput");
         this.showSourceInput = $('#ShowSource');
-        this.showRendererInput = $('#ShowRenderer');
         this.showFileBrowserInput = $('#ShowFileBrowser');
 
         //输入框自动完成
@@ -38,29 +37,7 @@ var Toolbar = {
             $(this).val(Editor.GetFileName());
         });
 
-        //显示源码
-        this.showSourceInput.change(function() {
-            Toolbar._log('ShowSource.change');
-            if (!Toolbar.showRendererInput.prop('checked'))
-                $(this).prop('checked', true);
-            Toolbar._updateSourceAndRendererLayout();
-        });
-
-        //显示渲染
-        this.showRendererInput.change(function() {
-            Toolbar._log('ShowRender.change');
-            if (!Toolbar.showSourceInput.prop('checked'))
-                $(this).prop('checked', true);
-            Toolbar._updateSourceAndRendererLayout();
-        });
-
-        this.showFileBrowserInput.change(function() {
-            Toolbar._log('ShowFileBrowser.change');
-            Toolbar._updateSourceAndRendererLayout();
-        });
-
-
-        Toolbar._updateSourceAndRendererLayout()
+        Toolbar.switchLayout('browse');
     },
     addFile : function(name)
     {
@@ -78,12 +55,19 @@ var Toolbar = {
             return a.toLowerCase().localeCompare(b.toLowerCase());
          });
     },
-    _updateSourceAndRendererLayout : function()
+    switchLayout : function(mode)
     {
-        Toolbar._log('_updateSourceAndRendererLayout');
-        var showSource = this.showSourceInput.prop('checked');
-        var showRenderer = this.showRendererInput.prop('checked');
-        var showFileBrowser = this.showFileBrowserInput.prop('checked');
+        //更新设置
+        var showSource = false;
+        var showRenderer = true;
+        var showFileBrowser = false;
+        var showRenderer = true;
+        if (mode == 'browse')
+            showFileBrowser = true;
+        else if (mode == 'edit')
+            showSource = true;
+
+        //更新布局
         var restWidth = 100;
         if (showFileBrowser) {
             $('#FileBrowserTd').css('width', '20%').css('display', '');
