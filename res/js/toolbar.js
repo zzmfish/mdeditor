@@ -58,35 +58,15 @@ var Toolbar = {
     switchLayout : function(mode)
     {
         //更新设置
-        var showSource = false;
         var showRenderer = true;
-        var showFileBrowser = false;
-        var showRenderer = true;
-        if (mode == 'browse')
-            showFileBrowser = true;
-        else if (mode == 'edit')
-            showSource = true;
-
-        //更新布局
-        var restWidth = 100;
-        if (showFileBrowser) {
-            $('#FileBrowserTd').css('width', '20%').css('display', '');
-            restWidth -= 20;
+        if (mode == 'browse') {
+            $('#FileBrowserTd').css('width', Math.floor(0.2 * window.innerWidth) + 'px').css('display', '');
+            $('#FileBrowser').css('width', Math.floor(0.2 * window.innerWidth) + 'px');
+            $('#EditorTd').css('display', 'none');
         }
-        else
-            $('#FileBrowserTd').css('width', '20%').css('display', 'none');
-
-        if (showSource && showRenderer) {
-            $('#EditorTd').css('width', restWidth / 2 + '%').css('display', '');
-            $('#RendererTd').css('width', restWidth / 2 + '%').css('display', '');
-        }
-        else if (showSource) {
-            $('#EditorTd').css('width', restWidth + '%').css('display', '');
-            $('#RendererTd').css('width', '0%').css('display', 'none');
-        }
-        else if (showRenderer) {
-            $('#EditorTd').css('width', '0%').css('display', 'none');
-            $('#RendererTd').css('width', restWidth + '%').css('display', '');
+        else if (mode == 'edit') {
+            $('#FileBrowserTd').css('display', 'none');
+            $('#EditorTd').css('width', Math.floor(0.5 * window.innerWidth) + 'px').css('display', '');
         }
     },
     _log : function(msg)
