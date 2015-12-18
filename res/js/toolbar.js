@@ -67,6 +67,7 @@ var Toolbar = {
         else if (mode == 'edit') {
             $('#FileBrowserTd').css('display', 'none');
             $('#EditorTd').css('width', Math.floor(0.5 * window.innerWidth) + 'px').css('display', '');
+            Editor.update();
         }
     },
     _log : function(msg)

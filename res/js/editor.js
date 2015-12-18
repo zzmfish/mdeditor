@@ -33,6 +33,10 @@ var Editor = {
         this.editor.gotoLine(0);
     },
 
+    update : function() {
+        this.editor.renderer.updateFull(true);
+    },
+
     focus : function()
     {
         this.editor.focus();
